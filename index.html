@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html id="app">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+    <style>
+      #app {
+        width: 400px;
+        margin : 10px auto;
+        font-size: 13px;
+      }
+      header {
+        display: block;
+        background: #232323;
+        width : 100%;
+        padding : 10px;
+        color : #fafafa;
+        font-size: 18px;
+        font-weight : bold
+      }
+      ul {
+        padding : 10px;
+        margin: 20px 0 0;
+      }
+      ul li {
+        display: block;
+        padding: 8px;
+        width : 100%;
+        border: 1px solid #aaa;
+        background: #fafafa;
+        border-radius : 5px;
+        margin-bottom: 10px;
+      }
+      h2 {
+        font-size : 18px;
+        vertical-align: center;
+        padding : 0;
+      }
+      p {
+        margin-bottom: 0;
+      }
+      p:not(:last-child) {
+        margin-bottom: 3px;
+        padding-bottom: 3px;
+        border-bottom: 1px solid #ccc;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div>
+      <header>{{title}}</header>
+      <ul>
+        <li m-for="item in {{candidates}}">
+          <h2>{{item.candidato.nombre}}</h2>
+          <p>Partido: {{item.partido.nombre}}</p>
+          <p m-if="{{item.conglomerado.nombre}}">Conglomerado: {{item.conglomerado.nombre}}</p>
+        </li>
+      </ul>
+    </div>
+    <p>Work in progress...</p>
+
+    <script src="https://unpkg.com/moonjs@0.9.0"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      var candidatosURL = "https://presidenciables-chile-2017-api.herokuapp.com/candidatos";
+      var metaURL = "https://presidenciables-chile-2017-api.herokuapp.com/meta";
+
+      var app = new Moon({
+        el : "#app",
+        data : {
+          title : "",
+          candidates : [],
+          meta: []
+        },
+        hooks: {
+          mounted: function() {
+            axios.get(candidatosURL).then(response => {
+              var that = this;
+              that.set("candidates", response.data);
+              
+            }).catch(e => {
+              this.errors.push(e)
+            });
+            axios.get(metaURL).then(response => {
+
+              this.meta = response.data
+              
+              var value;
+              for(var key in this.meta) {
+                value = response.data[key];
+              }
+              this.set("title", value.name);
+            }).catch(e => {
+              this.errors.push(e)
+            });
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
