@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width">
     <title>{{title}}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
       #app {
         width: 600px;
@@ -74,7 +75,7 @@
       <ul>
         <li m-for="item in {{candidates}}">
           <img src="{{item.candidato.foto}}" alt="{{item.candidato.nombre}}">
-          <h2>{{item.candidato.nombre}}</h2>
+          <h2>{{item.candidato.nombre}} <small><a m-if="{{item.candidato.url}}" href="{{item.candidato.url}}"><i class="fa fa-link"></i></a> <a m-if="{{item.candidato.facebook}}" href="{{item.candidato.facebook}}"><i class="fa fa-facebook-square"></i></a> <a m-if="{{item.candidato.twitter}}" href="{{item.candidato.twitter}}"><i class="fa fa-twitter"></i></a></small></h2>
           <div class="tercio">
             <p>Partido: {{item.partido.nombre}}</p>
             <img m-if="{{item.partido.logo}}" src="{{item.partido.logo}}" alt="{{item.partido.nombre}}">
@@ -91,10 +92,10 @@
     <script src="https://unpkg.com/moonjs@0.9.0"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
-      var candidatosURL = "https://presidenciables-chile-2017-api.herokuapp.com/candidatos";
-      var metaURL = "https://presidenciables-chile-2017-api.herokuapp.com/meta";
-      // var candidatosURL = "http://localhost:3000/candidatos";
-      // var metaURL = "http://localhost:3000/meta";
+      // var candidatosURL = "https://presidenciables-chile-2017-api.herokuapp.com/candidatos";
+      // var metaURL = "https://presidenciables-chile-2017-api.herokuapp.com/meta";
+      var candidatosURL = "http://localhost:3000/candidatos";
+      var metaURL = "http://localhost:3000/meta";
 
       var app = new Moon({
         el : "#app",
