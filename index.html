@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
     <style>
       #app {
-        width: 400px;
+        width: 600px;
         margin : 10px auto;
         font-size: 13px;
       }
@@ -19,6 +19,10 @@
         color : #fafafa;
         font-size: 18px;
         font-weight : bold
+      }
+      .tercio {
+        width: 40%;
+        float: left;
       }
       ul {
         padding : 10px;
@@ -33,6 +37,19 @@
         border-radius : 5px;
         margin-bottom: 10px;
       }
+        ul li:after {
+          content: " ";
+          display: block;
+          clear: both;
+        }
+        ul li > img {
+          max-width: 100px;
+          float: left;
+          margin-right: 10px;
+        }
+        ul li p + img {
+          max-height: 50px;
+        }
       h2 {
         font-size : 18px;
         vertical-align: center;
@@ -52,21 +69,32 @@
 
     <div>
       <header>{{title}}</header>
+      <p>Work in progress...</p>
+
       <ul>
         <li m-for="item in {{candidates}}">
+          <img src="{{item.candidato.foto}}" alt="{{item.candidato.nombre}}">
           <h2>{{item.candidato.nombre}}</h2>
-          <p>Partido: {{item.partido.nombre}}</p>
-          <p m-if="{{item.conglomerado.nombre}}">Conglomerado: {{item.conglomerado.nombre}}</p>
+          <div class="tercio">
+            <p>Partido: {{item.partido.nombre}}</p>
+            <img m-if="{{item.partido.logo}}" src="{{item.partido.logo}}" alt="{{item.partido.nombre}}">
+          </div>
+          <div m-if="{{item.conglomerado.nombre}}" class="tercio">
+            <p>Conglomerado: {{item.conglomerado.nombre}} </p>
+            <img src="{{item.conglomerado.logo}}" alt="{{item.conglomerado.nombre}}">
+          </div>
+          
         </li>
       </ul>
     </div>
-    <p>Work in progress...</p>
 
     <script src="https://unpkg.com/moonjs@0.9.0"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
       var candidatosURL = "https://presidenciables-chile-2017-api.herokuapp.com/candidatos";
       var metaURL = "https://presidenciables-chile-2017-api.herokuapp.com/meta";
+      // var candidatosURL = "http://localhost:3000/candidatos";
+      // var metaURL = "http://localhost:3000/meta";
 
       var app = new Moon({
         el : "#app",
